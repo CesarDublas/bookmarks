@@ -1,0 +1,24 @@
+.container{
+    padding: 20px;
+    
+
+    table{
+        width: 80%;
+        margin: auto;
+        th,td{
+            padding: 20px 0 20px 20px;
+
+            &:last-child{
+                width: 180px;
+            }
+            button{
+                margin-left: 10px;
+            }
+        }
+    }
+
+    .new-bookmark, .wrapper, h1, .filter{
+        margin-top: 50px;
+        text-align: center;
+    }
+}

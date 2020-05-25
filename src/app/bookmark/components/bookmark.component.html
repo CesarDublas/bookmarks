@@ -1,0 +1,79 @@
+
+<div class="container">
+    <mat-toolbar color="primary">My Bookmarks</mat-toolbar>
+    <div class="filter">
+        <mat-form-field>
+            <mat-label>Filter by group:</mat-label>
+            <mat-select [(value)]="filterBy" (selectionChange)="filterByGruop()">
+              <mat-option *ngFor="let group of groups" [value]="group">
+                {{group}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+    </div>
+    
+
+    <table matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
+        <tr>
+          <th mat-sort-header="Name">Name</th>
+          <th mat-sort-header="Url">Url</th>
+          <th mat-sort-header="Group">Group</th>
+          <th> </th>
+        </tr>
+      
+        <tr *ngFor="let BookmarkState of sortedData" >
+          <td>
+              <span *ngIf="!isEditing[BookmarkState.Id]">{{BookmarkState.Name}}</span>
+              <mat-form-field *ngIf="isEditing[BookmarkState.Id]">
+                <input matInput [(ngModel)]="edittedBookmark.name">
+              </mat-form-field>
+
+          </td>
+          <td>
+            <span *ngIf="!isEditing[BookmarkState.Id]"><a target="_blank" href="http://{{BookmarkState.Url}}"> {{BookmarkState.Url}}</a></span>
+            <mat-form-field *ngIf="isEditing[BookmarkState.Id]">
+              <input matInput [(ngModel)]="edittedBookmark.url">
+            </mat-form-field>
+          </td>
+          <td>
+            <span *ngIf="!isEditing[BookmarkState.Id]">{{BookmarkState.Group}}</span>
+            <mat-form-field *ngIf="isEditing[BookmarkState.Id]">
+              <input matInput [(ngModel)]="edittedBookmark.group">
+            </mat-form-field>
+          </td>
+          <td>
+              <button mat-raised-button color="warn" (click) ='deleteBookmark(BookmarkState.Id)'>Delete</button> 
+              <button mat-raised-button color="primary" (click) ='toggleIsEditting(BookmarkState)' *ngIf="!isEditing[BookmarkState.Id]">Edit</button>
+              <button mat-raised-button color="primary" (click) ='saveEdition()' *ngIf="isEditing[BookmarkState.Id]">Save</button>
+        </td>
+        </tr>
+      </table>
+
+    <div *ngIf="!enableEdit" class="new-bookmark">
+        <button mat-raised-button color="primary" (click)="toggleEnableEdit()">Add New Bookmark</button>
+     </div>
+     <div class="wrapper" *ngIf="enableEdit">
+        <h3>New Bookmark</h3>
+        <mat-form-field appearance="fill">
+          <mat-label>Name</mat-label>
+          <input matInput [(ngModel)]="Name" placeholder="New Bookmark" required minlength="3">
+          <mat-error>You must enter a valid name</mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill">
+            <mat-label>URL</mat-label>
+            <input matInput [(ngModel)]="Url" placeholder="URL" required pattern="[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)">
+          <mat-error>You must provde a valid URL</mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill">
+            <mat-label>Group</mat-label>
+            <input matInput [(ngModel)]="Group" placeholder="Group" required minlength="3">
+            <mat-error>You must enter a valid Group name</mat-error>
+        </mat-form-field>
+        <br>
+  
+        <button mat-raised-button color="primary" (click)="createBookmark()">Add</button>
+
+     </div>
+  </div>
