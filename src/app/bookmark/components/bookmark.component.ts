@@ -117,8 +117,6 @@ export class BookmarkComponent implements OnInit {
       payload: {  Id: this.edittedBookmark.id, Name:this.edittedBookmark.name, Url:this.edittedBookmark.url, Group:this.edittedBookmark.group, isDeleted: false }
     }
     this.store.dispatch(bookmarkAction);
-    console.log(this.BookmarkList);
-    console.log(this.sortedData);
     this.sortedData = this.BookmarkList;
     this.isEditing[this.edittedBookmark.id]=false
     this.populateFilters()
